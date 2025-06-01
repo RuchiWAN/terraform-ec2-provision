@@ -11,3 +11,13 @@ tags = {
   }
 
 }
+
+provider "github" {
+  token = var.github_token
+}
+resource "github_repository" "example" {
+  name = "example"
+  description = "mine"
+  visibility = "public"
+}
+
