@@ -51,6 +51,48 @@ terraform apply
 ⚠️ Never hardcode AWS credentials in .tf files.
 This project uses the default AWS CLI profile to authenticate. Store secrets securely using environment variables or credential managers.
 
+🔐 GitHub Provider Integration
+This module provisions a GitHub repository using the Terraform GitHub Provider.
+
+✅ Steps Implemented
+1. Declared the Provider:
+
+provider "github" {
+  token = var.github_token
+}
+
+2. Declared the Variable (in variables.tf):
+
+variable "github_token" {
+  description = "GitHub personal access token"
+  type        = string
+  sensitive   = true
+}
+
+3. Created a Secure Auto-Loaded Variable File (secrets.auto.tfvars):
+This file is automatically loaded by Terraform and excluded from Git tracking via .gitignore.
+
+github_token = "ghp_xxx...your_token_here"
+
+4. Added to .gitignore to protect credentials:
+
+*.tfstate
+*.tfstate.backup
+*.auto.tfvars
+
+5. Provisioned a GitHub Repository:
+
+resource "github_repository" "example" {
+  name        = "example"
+  description = "mine"
+  visibility  = "public"
+}
+
+🛡️ Security Note
+GitHub tokens are never hardcoded.
+They are referenced via var.github_token and securely passed via a .auto.tfvars file.
+This keeps secrets out of version control and aligns with Terraform security best practices.
+
 📌 Tags
 terraform aws ec2 infrastructure-as-code iac cloud
 
