@@ -1,3 +1,8 @@
+variable "vpc_id" {
+  description = "The VPC ID where this security group will be created"
+  type        = string
+}
+
 resource "aws_security_group" "baseline_sg" {
   name        = "baseline-sg"
   description = "Baseline Security Group with explicit ingress & egress"
