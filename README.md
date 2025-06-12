@@ -6,12 +6,15 @@ This project provisions a simple **EC2 instance** in AWS using **Terraform**. It
 
 ## 📂 Project Structure
 
-├── first-ec2.tf # Terraform config: provider & EC2 instance
-├── terraform.tfstate # Current infrastructure state (auto-generated)
-├── terraform.tfstate.backup # Backup state file (auto-generated)
-├── .terraform.lock.hcl # Provider lock file (auto-managed)
-├── .gitignore # Git ignore rules
-└── README.md # Project documentation
+├── first-ec2.tf                     # Terraform config: provider & EC2 instance
+├── variables.tf                     # Variable declarations (AWS region, instance type, etc.)
+├── terraform.tfstate                # Current infrastructure state (auto-generated) - not tracked in Git
+├── terraform.tfstate.backup         # Backup state file (auto-generated) - not tracked in Git
+├── .terraform.lock.hcl              # Provider lock file (auto-managed)
+├── .gitignore                       # Git ignore rules
+├── README.md                        # Project documentation (this file)
+├── docs/                            # Project notes & additional documentation
+│   └── secure-firewall-templates.md # Secure firewall baseline notes (AWS/Azure/GCP patterns)
 
 ---
 
@@ -87,6 +90,20 @@ resource "github_repository" "example" {
   description = "mine"
   visibility  = "public"
 }
+
+6. 🛡️ Secure Baseline Firewall Templates (AWS / Azure / GCP)
+
+As part of my ongoing Cloud IAM Architect learning path, I started building a set of reusable secure baseline firewall templates across AWS, Azure, and GCP. These ensure I can fully control ingress/egress behavior and apply security by design in my Terraform deployments.
+
+**Highlights:**
+- Explicit ingress & egress in all providers → no surprises
+- Easily auditable and reusable
+- First step toward Zero Trust posture & segmentation
+- Aligns with CIS, NIST, and PCI DSS expectations
+
+See: [/docs/secure-firewall-templates](./docs/secure-firewall-templates)
+
+---
 
 🛡️ Security Note
 GitHub tokens are never hardcoded.

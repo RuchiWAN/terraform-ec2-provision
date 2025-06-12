@@ -1,0 +1,6 @@
+feat(security): add secure baseline firewall templates (AWS / Azure / GCP)
+
+- Created reusable secure firewall configs in /docs/secure-firewall-templates
+- Explicit ingress/egress → no surprises
+- Aligns with CIS, NIST, PCI DSS expectations
+- First step toward Zero Trust posture & segmentation
