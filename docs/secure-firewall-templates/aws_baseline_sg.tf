@@ -13,29 +13,35 @@ resource "aws_security_group" "baseline_sg" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "ssh" {
+# SSH from trusted IP
+resource "aws_vpc_security_group_rule" "ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["YOUR_TRUSTED_IP/32"]
   security_group_id = aws_security_group.baseline_sg.id
-  description        = "SSH from trusted IP"
-  from_port          = 22
-  to_port            = 22
-  protocol           = "tcp"
-  cidr_ipv4          = "YOUR_TRUSTED_IP/32" # e.g. VPN IP
+  description       = "SSH from trusted IP"
 }
 
-resource "aws_vpc_security_group_ingress_rule" "http" {
+# HTTP from anywhere
+resource "aws_vpc_security_group_rule" "http" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.baseline_sg.id
-  description        = "HTTP from anywhere"
-  from_port          = 80
-  to_port            = 80
-  protocol           = "tcp"
-  cidr_ipv4          = "0.0.0.0/0"
+  description       = "HTTP from anywhere"
 }
 
-resource "aws_vpc_security_group_egress_rule" "all" {
+# Allow all outbound traffic
+resource "aws_vpc_security_group_rule" "all" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.baseline_sg.id
-  description        = "Allow all outbound traffic"
-  from_port          = 0
-  to_port            = 0
-  protocol           = "-1"
-  cidr_ipv4          = "0.0.0.0/0"
+  description       = "Allow all outbound traffic"
 }
